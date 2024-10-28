@@ -1,10 +1,10 @@
-# snews_snap_client_sender
+# snap_client_sender
 A setup for application sending observations to SNEWS
 
 ## Installation
 Checkout this package:
 ```shell
-git clone 
+git clone git@github.com:SNEWS2/snap_client_sender.git
 ```
 
 Install the requirements:
