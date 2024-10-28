@@ -34,7 +34,7 @@ You should see the output of each message being sent.
 Run the `generate_alerts` node:
 
 ```shell
-snap_run config.yml generate_alerts
+snap_run config.yml -n generate_alerts
 ```
 
 to start the process which adds a line to `alerts.txt` file every 120 seconds.
