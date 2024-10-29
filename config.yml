@@ -1,0 +1,32 @@
+settings:
+  - &detector_name "Baksan"
+  - &alert_file "alerts.txt"
+
+node: !Node
+  - !chain:Observation
+  #a chain that monitors input file and reads the line
+    - !from .source.read_lines: {fname: *alert_file, delay: 0.01}
+#    - .output.dump: {prefix: "Read line:"}
+    - client.parse_alert_lines: {max_delay: 10}
+    - client.generate_coincidence_message: {detector_name: *detector_name}
+    - !to Publisher
+
+  - !chain:Heartbeat 
+  #a chain that generates heartbeat messages every 10 seconds
+    - !from client.generate_heartbeat_message: {detector_name: *detector_name}
+    - .timing.every: {seconds: 10}
+    - !to Publisher
+
+  - !chain:Publisher
+    - client.publish_to_snews: {firedrill_mode: False, verbose: True}
+    - .tqdm.counter: {desc: "Published"}
+
+
+
+generate_alerts: !Node
+  #Generate the fake data observations
+  - !chain
+    - !from client.gen_timestamp: {delay_seconds: 1}
+    - .timing.every: {seconds: 120}
+    - .tqdm.counter: {desc: "alerts"}
+    - .output.dump_to_file: {fname: *alert_file}
