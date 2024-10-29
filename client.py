@@ -26,6 +26,7 @@ def publish_to_snews(firedrill_mode=False, verbose=False):
 def generate_coincidence_message(detector_name=None):
     def process(nu_time):
         return SNEWSCoincidenceTierMessage(detector_name=None, neutrino_time=nu_time)
+    return process
 
         
 
